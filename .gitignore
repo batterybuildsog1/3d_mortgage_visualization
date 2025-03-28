@@ -1,3 +1,4 @@
+
 # macOS specific files
 .DS_Store
 
@@ -12,14 +13,14 @@ test-*.html
 test.html
 index.html.bak
 visualization.js.bak
-script.js
-visualization.js
+# script.js # Removed from ignore
+# visualization.js # Removed from ignore
 js/visualization-fixed.js
 dti-calculator/test-*.html
 dti-calculator/minimal.html
 dti-calculator/index-fixed.html
 dti-calculator/js/*-fixed.js
-dti-calculator/README.md
+# dti-calculator/README.md # Removed from ignore
 
 # Documentation/Notes (excluding main READMEs)
 Questions from CLine clarifying file structure.md
@@ -31,3 +32,21 @@ file_structure_diagram.mmd
 
 # References directory
 references/
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Build output
+build/
+dist/
