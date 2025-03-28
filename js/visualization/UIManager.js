@@ -73,7 +73,8 @@ export class UIManager {
         this.tooltipElement.style.transition = 'opacity 0.15s ease-out';
         this.tooltipElement.style.opacity = '0';
 
-        this.uiContainer.appendChild(this.tooltipElement);
+        // Append to body instead of uiContainer to avoid stacking context issues
+        document.body.appendChild(this.tooltipElement);
     }
 
     updateTooltipContent(data) {
@@ -457,8 +458,9 @@ export class UIManager {
 
     destroy() {
         console.log("Destroying UIManager elements...");
-        if (this.tooltipElement?.parentElement) { // Check if tooltipElement exists before removing
-            this.tooltipElement.parentElement.removeChild(this.tooltipElement);
+        // Remove tooltip from body if it exists and is attached
+        if (this.tooltipElement && this.tooltipElement.parentElement === document.body) {
+             document.body.removeChild(this.tooltipElement);
         }
         this.tooltipElement = null;
         const viewControls = this.uiContainer.querySelector('.view-controls');

@@ -267,4 +267,4 @@ window.toggleFullscreen = function() { // Keep toggleFullscreen global for now, 
 };
 
 // Optional: Export initializeVisualization if needed directly by other modules
-// export { initializeVisualization };
+export { initializeVisualization };
