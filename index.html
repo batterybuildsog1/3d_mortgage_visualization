@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Mortgage Calculator</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Use root-relative path for Vite -->
+    <link rel="stylesheet" href="/css/ai-chat.css"> <!-- Use root-relative path for Vite -->
+    <!-- Remove Three.js CDN scripts -->
+</head>
+<body>
+    <div class="neomort-container">
+        <header class="neomort-header">
+            <h1 class="neomort-header__title">NEOMORT <span class="neomort-header__title-accent">//</span> CALCULATOR</h1>
+            <div class="neomort-version">
+                <span class="neomort-version__tag neomort-version__tag--version">v0.1.3</span>
+                <span class="neomort-version__tag neomort-version__tag--beta">BETA</span>
+            </div>
+        </header>
+        
+        <main>
+            <div class="neomort-layout">
+                <!-- Input Panel -->
+                <div class="neomort-panel neomort-panel--input">
+                    <h2 class="neomort-panel__title"><span class="neomort-panel__title-icon">💲</span>INPUT PARAMETERS</h2>
+                    
+                    <div class="neomort-form">
+                        <!-- Income input -->
+                        <div class="neomort-form__group">
+                            <label class="neomort-form__label" for="income">ANNUAL INCOME</label>
+                            <div class="neomort-form__input-wrapper">
+                                <span class="neomort-form__input-prefix">$</span>
+                                <input class="neomort-form__input" type="number" id="income" value="75000">
+                            </div>
+                        </div>
+                        
+                        <!-- Location input -->
+                        <div class="neomort-form__group">
+                            <label class="neomort-form__label" for="location">LOCATION</label>
+                            <div class="neomort-form__input-wrapper">
+                                <span class="neomort-form__input-prefix">🏠</span>
+                                <input class="neomort-form__input" type="text" id="location" placeholder="Enter address">
+                            </div>
+                        </div>
+                        
+                        <!-- LTV slider -->
+                        <div class="neomort-form__group">
+                            <div class="neomort-slider__header">
+                                <label class="neomort-form__label" for="ltv">LOAN-TO-VALUE (LTV)</label>
+                                <span class="neomort-slider__value" id="ltv-value">95%</span>
+                            </div>
+                            <input type="range" id="ltv" min="70" max="100" value="95" class="neomort-slider__input">
+                            <div class="neomort-slider__labels">
+                                <span>70%</span>
+                                <span>85%</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- FICO score slider -->
+                        <div class="neomort-form__group">
+                            <div class="neomort-slider__header">
+                                <label class="neomort-form__label" for="fico">FICO SCORE</label>
+                                <span class="neomort-slider__value" id="fico-value">680</span>
+                            </div>
+                            <input type="range" id="fico" min="580" max="850" value="680" class="neomort-slider__input">
+                            <div class="neomort-slider__labels">
+                                <span>580</span>
+                                <span>720</span>
+                                <span>850</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Loan type selector -->
+                        <div class="neomort-form__group">
+                            <label class="neomort-form__label">LOAN TYPE</label>
+                            <div class="neomort-loan-types">
+                                <button class="neomort-loan-types__button" data-loan-type="Conventional">Conventional</button>
+                                <button class="neomort-loan-types__button neomort-loan-types__button--active" data-loan-type="FHA">FHA</button>
+                                <button class="neomort-loan-types__button" data-loan-type="VA">VA</button>
+                                <button class="neomort-loan-types__button" data-loan-type="USDA">USDA</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Calculate button -->
+                        <button class="neomort-calculate-button">CALCULATE BORROWING POWER</button>
+                        
+                        <p class="neomort-form__info">Based on 0.41 DTI (max for FHA without manual underwriting)</p>
+                    </div>
+                </div>
+
+                <!-- Results and Visualization -->
+                <div class="neomort-layout__right-panel">
+                    <!-- Results summary -->
+                    <div class="neomort-panel neomort-panel--results">
+                        <h2 class="neomort-panel__title"><span class="neomort-panel__title-icon">🏆</span>BORROWING POWER RESULTS</h2>
+                        
+                        <div class="neomort-results">
+                            <div class="neomort-results__card">
+                                <p class="neomort-card__label">MAXIMUM LOAN AMOUNT</p>
+                                <p class="neomort-card__value" id="loan-amount">$0</p>
+                            </div>
+                            
+                            <div class="neomort-results__card">
+                                <p class="neomort-card__label">TOTAL BORROWING POWER</p>
+                                <p class="neomort-card__value" id="borrowing-power">$0</p>
+                            </div>
+                            
+                            <div class="neomort-results__card">
+                                <p class="neomort-card__label">DOWN PAYMENT REQUIRED</p>
+                                <p class="neomort-card__value" id="down-payment">$0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="neomort-results-extra">
+                            <div class="neomort-results-extra__card">
+                                <p class="neomort-card__label">EST. MONTHLY PAYMENT</p>
+                                <p class="neomort-card__value" id="monthly-payment">$0</p>
+                            </div>
+                            
+                            <div class="neomort-results-extra__card">
+                                <p class="neomort-card__label">EST. INTEREST RATE</p>
+                                <p class="neomort-card__value" id="interest-rate">0.00%</p>
+                            </div>
+                            
+                            <div class="neomort-results-extra__card">
+                                <p class="neomort-card__label">DEBT-TO-INCOME</p>
+                                <p class="neomort-card__value">41%</p>
+                            </div>
+                            
+                            <div class="neomort-results-extra__card">
+                                <p class="neomort-card__label">LOAN TYPE</p>
+                                <p class="neomort-card__value" id="selected-loan-type">FHA</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D Visualization -->
+                    <div class="neomort-panel neomort-panel--visualization">
+                        <div class="neomort-panel__header">
+                            <h2 class="neomort-panel__title"><span class="neomort-panel__title-icon">📊</span>POWER MATRIX VISUALIZATION</h2>
+                            
+                            <div class="neomort-viz-controls">
+                                <select class="neomort-viz-controls__select" id="loan-comparison">
+                                    <option>Compare All Loans</option>
+                                    <option>Conventional Only</option>
+                                    <option>FHA Only</option>
+                                    <option>VA Only</option>
+                                    <option>USDA Only</option>
+                                </select>
+                                
+                                <button class="neomort-viz-controls__button neomort-viz-controls__button--fullscreen" id="fullscreen-btn" title="Toggle Fullscreen">
+                                    <span>Fullscreen</span>
+                                </button>
+                                
+                                <button class="neomort-viz-controls__button neomort-viz-controls__button--options options-btn">
+                                    <span>Options</span> ▼
+                                </button>
+                                
+                                <button class="neomort-viz-controls__button neomort-viz-controls__button--toggle-mode viz-toggle-btn" id="viz-mode-toggle" data-mode="borrowing" title="Toggle View Mode">
+                                    <span>Show Purchasing Power</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="neomort-visualization">
+                            <div class="neomort-visualization__canvas" id="visualization" style="width: 100%; height: 100%;"></div>
+                            <div class="neomort-visualization__placeholder">
+                                <p class="neomort-visualization__placeholder-title">3D BORROWING POWER MATRIX</p>
+                                <p class="neomort-visualization__placeholder-text">Interactive visualization showing how FICO score and LTV affect your borrowing capacity</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Static AI Chat Section -->
+            <section id="ai-chat-static-section" class="neomort-panel neomort-panel--ai-chat">
+                 <h2 class="neomort-panel__title"><span class="neomort-panel__title-icon">🤖</span>NEOMORT AI ASSISTANT</h2>
+                 <div class="ai-chat__content">
+                     <div class="ai-chat__body">
+                         <p class="ai-chat__placeholder">Loading AI Assistant...</p>
+                     </div>
+                     <div class="ai-chat__input-area">
+                         <!-- Input form dynamically added by JS -->
+                     </div>
+                 </div>
+            </section>
+
+        </main>
+        
+        <footer class="neomort-footer">
+            <p class="neomort-footer__text">NEOMORT // CALCULATOR v0.1.3 - Powered by LLPA and MIP data</p>
+            <p class="neomort-footer__text">Not financial advice. Consult with a mortgage professional.</p>
+        </footer>
+    </div>
+
+    <!-- Remove explicit script loads for modules; Vite handles the entry point -->
+    <!-- Vite entry point -->
+    <script type="module" src="/main.js"></script> 
+
+</body>
+</html>

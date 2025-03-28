@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "source": "HUD/FHA",
+    "effectiveDate": "2025-01-01",
+    "expirationDate": null,
+    "version": "1.0.0",
+    "description": "FHA Mortgage Insurance Premium (MIP) rates"
+  },
+  "upfront": 1.75,
+  "annual": {
+    "term30": {
+      "loanLessThan726200": {
+        "ltvLessThan90": 0.50,
+        "ltvLessThan95": 0.50,
+        "ltvGreaterThan95": 0.55
+      },
+      "loanGreaterThan726200": {
+        "ltvLessThan90": 0.70,
+        "ltvLessThan95": 0.70,
+        "ltvGreaterThan95": 0.75
+      }
+    },
+    "term15": {
+      "loanLessThan726200": {
+        "ltvLessThan90": 0.15,
+        "ltvGreaterThan90": 0.40
+      },
+      "loanGreaterThan726200": {
+        "ltvLessThan78": 0.15,
+        "ltvLessThan90": 0.40,
+        "ltvGreaterThan90": 0.65
+      }
+    }
+  },
+  "duration": {
+    "ltvLessThan90": "11years",
+    "ltvGreaterThan90": "lifeOfLoan"
+  }
+}

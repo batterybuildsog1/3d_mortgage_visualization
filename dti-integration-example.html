@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Mortgage Visualization with DTI Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="dti-calculator/css/dti-calculator.css">
+  <style>
+    #visualization-container {
+      width: 100%;
+      height: 80vh;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .control-panel {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Main visualization container - this would be your 3D visualization -->
+  <div id="visualization-container">
+    <h2>3D Mortgage Visualization</h2>
+  </div>
+  
+  <!-- Control panel for interactive elements -->
+  <div class="control-panel">
+    <!-- DTI Calculator button will be added here by JavaScript -->
+  </div>
+  
+  <script type="module">
+    import { addDTICalculatorButton } from './dti-calculator/js/integration.js';
+    
+    // Sample mortgage data that would come from your 3D visualization
+    const sampleMortgageData = {
+      monthlyIncome: 6000,
+      loanAmount: 300000,
+      interestRate: 6.5,
+      loanTerm: 30,
+      monthlyPayment: 1897,
+      propertyTaxes: 350,
+      homeInsurance: 125,
+      hoa: 50
+    };
+    
+    // Add the DTI calculator button to the control panel
+    addDTICalculatorButton('.control-panel', sampleMortgageData, function(dtiData) {
+      console.log('DTI Calculated:', dtiData);
+      
+      // Example of updating the visualization based on DTI calculation
+      if (dtiData.calculations && dtiData.eligibility) {
+        const backEndDTI = parseFloat(dtiData.calculations.backEndDTI);
+        
+        // This is where you would update your 3D visualization based on the DTI results
+        if (backEndDTI <= 36) {
+          console.log('Excellent DTI ratio - Visualization could show green indicators');
+        } else if (backEndDTI <= 43) {
+          console.log('Good DTI ratio - Visualization could show yellow indicators');
+        } else {
+          console.log('High DTI ratio - Visualization could show red indicators');
+        }
+        
+        // Example of how you might update UI elements to reflect DTI status
+        const visualizationContainer = document.getElementById('visualization-container');
+        visualizationContainer.innerHTML = `
+          <div>
+            <h2>3D Mortgage Visualization</h2>
+            <p>Front-end DTI: ${dtiData.calculations.frontEndDTI}%</p>
+            <p>Back-end DTI: ${dtiData.calculations.backEndDTI}%</p>
+            <p>Most favorable loan type: ${findMostFavorableLoanType(dtiData.eligibility)}</p>
+          </div>
+        `;
+      }
+    });
+    
+    // Helper function to find the most favorable loan type based on eligibility
+    function findMostFavorableLoanType(eligibility) {
+      // Look for loan types marked as "Eligible" first
+      for (const [type, data] of Object.entries(eligibility)) {
+        if (data.status === "Eligible") {
+          return formatLoanType(type);
+        }
+      }
+      
+      // Then look for "Likely Eligible"
+      for (const [type, data] of Object.entries(eligibility)) {
+        if (data.status === "Likely Eligible") {
+          return formatLoanType(type);
+        }
+      }
+      
+      // Otherwise return the first "Possibly Eligible"
+      for (const [type, data] of Object.entries(eligibility)) {
+        if (data.status === "Possibly Eligible") {
+          return formatLoanType(type);
+        }
+      }
+      
+      return "None - Consider debt reduction";
+    }
+    
+    // Format loan type names
+    function formatLoanType(type) {
+      switch(type) {
+        case 'fha':
+          return 'FHA Loan';
+        case 'va':
+          return 'VA Loan';
+        case 'conventional':
+          return 'Conventional Loan';
+        case 'freddieMac':
+          return 'Freddie Mac Loan';
+        case 'usda':
+          return 'USDA Loan';
+        default:
+          return type.toUpperCase();
+      }
+    }
+  </script>
+</body>
+</html>

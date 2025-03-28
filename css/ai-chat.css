@@ -1,0 +1,222 @@
+/* --- Static AI Chat Panel Styles (BEM: ai-chat block) --- */
+
+/* Assuming .neomort-panel and .neomort-panel--ai-chat handle the outer panel styling */
+/* Styles below focus on the internal structure of the ai-chat block */
+
+/* .ai-chat-panel { ... } - Handled by .neomort-panel--ai-chat */
+
+/* .ai-chat-panel h2 { ... } - Handled by .neomort-panel__title */
+
+
+/* Element: ai-chat__content */
+.ai-chat__content { /* Renamed from .ai-chat-content-wrapper */
+  /* Container for body and input */
+  display: flex;
+  flex-direction: column;
+  /* Set a max height and allow scrolling if content overflows */
+  max-height: 600px; /* Adjust as needed */
+  border: 1px solid #4b5563; /* Add border around content */
+  border-radius: 8px; /* Match input form */
+  overflow: hidden; /* Clip content */
+}
+
+/* --- Chat Body (Messages Area) --- */
+/* Element: ai-chat__body */
+.ai-chat__body {
+  flex-grow: 1; /* Take available space */
+  overflow-y: auto; /* Allow vertical scrolling */
+  padding: 15px;
+  background-color: #1f2937; /* Dark background */
+  min-height: 200px; /* Ensure it has some initial height */
+  display: flex; /* Use flex for message alignment */
+  flex-direction: column;
+}
+
+/* Element: ai-chat__placeholder */
+.ai-chat__placeholder { /* Renamed from .placeholder-text within .ai-chat-body */
+    color: #6b7280; /* Muted placeholder color */
+    text-align: center;
+    margin: auto; /* Center placeholder vertically and horizontally */
+}
+
+
+/* --- Messages --- */
+/* Element: ai-chat__message */
+.ai-chat__message {
+  display: flex;
+  margin-bottom: 15px;
+  max-width: 85%; /* Limit message width */
+}
+
+/* Element: ai-chat__message-content */
+.ai-chat__message-content {
+  padding: 10px 15px;
+  border-radius: 18px; /* More rounded bubbles */
+  line-height: 1.5;
+  font-size: 0.95rem;
+  word-wrap: break-word; /* Ensure long words break */
+}
+
+/* Modifier: ai-chat__message--user */
+.ai-chat__message--user {
+  align-self: flex-end; /* Align user messages to the right */
+}
+
+.ai-chat__message--user .ai-chat__message-content {
+  background-color: #3b82f6; /* Blue for user */
+  color: white;
+  border-bottom-right-radius: 5px; /* Slightly flatten corner */
+}
+
+/* Modifier: ai-chat__message--assistant */
+.ai-chat__message--assistant {
+  align-self: flex-start; /* Align assistant messages to the left */
+}
+
+.ai-chat__message--assistant .ai-chat__message-content {
+  background-color: #4b5563; /* Grey for assistant */
+  color: #e5e7eb;
+  border-bottom-left-radius: 5px; /* Slightly flatten corner */
+}
+
+/* Formatting within messages */
+.ai-chat__message-content strong {
+  font-weight: 600;
+}
+.ai-chat__message-content em {
+  font-style: italic;
+}
+.ai-chat__message-content ul, .ai-chat__message-content ol {
+  margin: 5px 0 5px 20px;
+  padding: 0;
+}
+.ai-chat__message-content li {
+  margin-bottom: 3px;
+}
+
+/* --- Typing Indicator --- */
+/* Element: ai-chat__typing-indicator */
+.ai-chat__typing-indicator {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px; /* Slightly more padding */
+  margin-bottom: 10px;
+  align-self: flex-start; /* Keep left aligned */
+  color: #9ca3af; /* Match muted text color */
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+/* Element: ai-chat__typing-dots */
+.ai-chat__typing-dots span { /* Target the spans specifically for dots */
+  height: 9px; /* Slightly larger dots */
+  width: 9px;
+  background-color: #9ca3af;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 3px; /* Slightly more space */
+  animation: typing 1.4s infinite ease-in-out both;
+}
+
+.ai-chat__typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.ai-chat__typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.ai-chat__typing-dots span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+/* --- Chat Input Area --- */
+/* Element: ai-chat__input-area */
+.ai-chat__input-area {
+  padding: 15px;
+  border-top: 1px solid #4b5563;
+  background-color: #374151; /* Slightly lighter background */
+  flex-shrink: 0; /* Prevent input area from shrinking */
+}
+
+/* Element: ai-chat__input-form */
+.ai-chat__input-form {
+  display: flex;
+  align-items: center;
+  background-color: #4b5563; /* Input background */
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+/* Element: ai-chat__input */
+.ai-chat__input { /* Renamed from input[type="text"] */
+  flex-grow: 1;
+  border: none;
+  background: none;
+  padding: 10px;
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.ai-chat__input::placeholder {
+  color: #9ca3af;
+}
+
+/* Element: ai-chat__send-button */
+.ai-chat__send-button { /* Renamed from button */
+  background: none;
+  border: none;
+  color: #9ca3af;
+  padding: 8px;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 18px; /* Icon size */
+  line-height: 1;
+}
+
+.ai-chat__send-button:hover {
+  color: #06b6d4; /* Use theme accent on hover */
+}
+
+/* --- Suggested Questions --- */
+/* Element: ai-chat__suggestions */
+.ai-chat__suggestions {
+  padding-top: 10px; /* Add space above suggestions */
+}
+
+/* Element: ai-chat__suggestions-title */
+.ai-chat__suggestions-title {
+  margin: 0 0 10px 0;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Element: ai-chat__suggestions-list */
+.ai-chat__suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Element: ai-chat__suggestion-item */
+.ai-chat__suggestion-item {
+  background-color: #4b5563;
+  color: #e5e7eb;
+  border: 1px solid #5a6677;
+  border-radius: 15px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.ai-chat__suggestion-item:hover {
+  background-color: #5a6677;
+}
+
+/* --- Remove old floating container styles --- */
+/* Delete or comment out rules related to .ai-chat-container (fixed positioning, etc.) */
+/* Delete or comment out rules related to .ai-chat-icon */
+/* Delete or comment out rules related to .ai-chat-header (if handled by panel styles) */
+/* Delete or comment out rules related to .expanded / .minimized states */

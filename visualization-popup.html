@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Mortgage Visualization - Fullscreen</title>
+    <!-- Load shared styles (Vite will handle this if imported in main.js) -->
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
+    <!-- <link rel="stylesheet" href="/css/ai-chat.css"> -->
+    <!-- Remove Three.js CDN scripts -->
+    <style>
+        /* Basic styles for the popup window */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #111827; /* Match main theme */
+        }
+        #visualization {
+            width: 100vw; /* Use viewport units */
+            height: 100vh;
+            display: block; /* Ensure it takes up space */
+        }
+        /* Tooltip styles should be handled by main CSS (imported via main.js) */
+    </style>
+</head>
+<body>
+    <!-- The container where the visualization script will render -->
+    <div id="visualization"></div>
+
+    <!-- Load the main Vite entry point -->
+    <script type="module" src="/main.js"></script>
+
+    <!-- Specific logic for the popup -->
+    <script type="module">
+        // This script runs *after* main.js has loaded and potentially initialized things
+        import { initializeVisualization } from '/js/visualization/index.js'; // Use root-relative path for Vite
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const visualizationContainer = document.getElementById('visualization');
+            if (!visualizationContainer) {
+                console.error('Popup: Visualization container not found.');
+                return;
+            }
+
+            // Try to get data from localStorage
+            let data = null;
+            try {
+                const storedData = localStorage.getItem('visualizationDataForPopup');
+                if (storedData) {
+                    data = JSON.parse(storedData);
+                    // Optional: Clear the data from localStorage after retrieving it
+                    // localStorage.removeItem('visualizationDataForPopup');
+                }
+            } catch (e) {
+                console.error("Popup: Error reading data from localStorage:", e);
+                visualizationContainer.innerHTML = '<p style="color: red; padding: 20px;">Error loading visualization data.</p>';
+                return;
+            }
+
+
+            // Check if data was retrieved
+            if (data) {
+                console.log('Popup: Initializing visualization with data from localStorage:', data);
+                // Initialize the visualization controller for the popup
+                const controller = initializeVisualization(visualizationContainer, true); // Pass true for isPopup
+                if (controller && typeof controller.update === 'function') {
+                    // Update the controller with the retrieved data
+                    controller.update(data);
+                } else {
+                    console.error('Popup: Failed to initialize visualization controller or controller missing update method.');
+                    visualizationContainer.innerHTML = '<p style="color: white; padding: 20px;">Error initializing visualization.</p>';
+                }
+            } else {
+                console.error('Popup: No visualization data found in localStorage.');
+                visualizationContainer.innerHTML = '<p style="color: white; padding: 20px;">Error: Visualization data not found.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

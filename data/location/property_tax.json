@@ -1,0 +1,328 @@
+{
+  "metadata": {
+    "source": "Estimated national property tax rates",
+    "effectiveDate": "2025-01-01",
+    "version": "1.0.0",
+    "description": "Average property tax rates by state and county"
+  },
+  "default": 0.01,
+  "AL": {
+    "default": 0.0041,
+    "Jefferson": 0.0052,
+    "Mobile": 0.0045,
+    "Montgomery": 0.0048
+  },
+  "AK": {
+    "default": 0.0120,
+    "Anchorage": 0.0143,
+    "Fairbanks": 0.0138,
+    "Juneau": 0.0108
+  },
+  "AZ": {
+    "default": 0.0066,
+    "Maricopa": 0.0067,
+    "Pima": 0.0077,
+    "Pinal": 0.0071
+  },
+  "AR": {
+    "default": 0.0062,
+    "Pulaski": 0.0070,
+    "Benton": 0.0065,
+    "Washington": 0.0063
+  },
+  "CA": {
+    "default": 0.0073,
+    "Los Angeles": 0.0069,
+    "San Diego": 0.0077,
+    "San Francisco": 0.0065,
+    "Orange": 0.0073,
+    "Santa Clara": 0.0071,
+    "Alameda": 0.0074,
+    "Sacramento": 0.0078
+  },
+  "CO": {
+    "default": 0.0051,
+    "Denver": 0.0057,
+    "El Paso": 0.0054,
+    "Arapahoe": 0.0060
+  },
+  "CT": {
+    "default": 0.0214,
+    "Fairfield": 0.0174,
+    "Hartford": 0.0203,
+    "New Haven": 0.0190
+  },
+  "DE": {
+    "default": 0.0056,
+    "New Castle": 0.0071,
+    "Kent": 0.0062,
+    "Sussex": 0.0035
+  },
+  "FL": {
+    "default": 0.0089,
+    "Miami-Dade": 0.0100,
+    "Broward": 0.0102,
+    "Palm Beach": 0.0103,
+    "Hillsborough": 0.0106,
+    "Orange": 0.0103
+  },
+  "GA": {
+    "default": 0.0092,
+    "Fulton": 0.0101,
+    "Cobb": 0.0098,
+    "DeKalb": 0.0102,
+    "Gwinnett": 0.0099
+  },
+  "HI": {
+    "default": 0.0028,
+    "Honolulu": 0.0035,
+    "Maui": 0.0026,
+    "Hawaii": 0.0033
+  },
+  "ID": {
+    "default": 0.0069,
+    "Ada": 0.0072,
+    "Canyon": 0.0070,
+    "Kootenai": 0.0068
+  },
+  "IL": {
+    "default": 0.0214,
+    "Cook": 0.0207,
+    "DuPage": 0.0191,
+    "Lake": 0.0220,
+    "Will": 0.0223
+  },
+  "IN": {
+    "default": 0.0085,
+    "Marion": 0.0095,
+    "Lake": 0.0101,
+    "Allen": 0.0088
+  },
+  "IA": {
+    "default": 0.0153,
+    "Polk": 0.0164,
+    "Linn": 0.0170,
+    "Scott": 0.0166
+  },
+  "KS": {
+    "default": 0.0141,
+    "Johnson": 0.0152,
+    "Sedgwick": 0.0130,
+    "Shawnee": 0.0145
+  },
+  "KY": {
+    "default": 0.0086,
+    "Jefferson": 0.0093,
+    "Fayette": 0.0088,
+    "Kenton": 0.0104
+  },
+  "LA": {
+    "default": 0.0053,
+    "Orleans": 0.0076,
+    "Jefferson": 0.0066,
+    "East Baton Rouge": 0.0061
+  },
+  "ME": {
+    "default": 0.0127,
+    "Cumberland": 0.0145,
+    "York": 0.0139,
+    "Penobscot": 0.0153
+  },
+  "MD": {
+    "default": 0.0107,
+    "Montgomery": 0.0095,
+    "Prince George's": 0.0141,
+    "Baltimore": 0.0123
+  },
+  "MA": {
+    "default": 0.0117,
+    "Middlesex": 0.0117,
+    "Suffolk": 0.0107,
+    "Essex": 0.0125
+  },
+  "MI": {
+    "default": 0.0158,
+    "Wayne": 0.0242,
+    "Oakland": 0.0142,
+    "Macomb": 0.0139
+  },
+  "MN": {
+    "default": 0.0115,
+    "Hennepin": 0.0124,
+    "Ramsey": 0.0131,
+    "Dakota": 0.0109
+  },
+  "MS": {
+    "default": 0.0080,
+    "Hinds": 0.0102,
+    "Harrison": 0.0091,
+    "DeSoto": 0.0097
+  },
+  "MO": {
+    "default": 0.0097,
+    "St. Louis": 0.0107,
+    "Jackson": 0.0128,
+    "St. Charles": 0.0101
+  },
+  "MT": {
+    "default": 0.0084,
+    "Yellowstone": 0.0096,
+    "Missoula": 0.0104,
+    "Gallatin": 0.0092
+  },
+  "NE": {
+    "default": 0.0172,
+    "Douglas": 0.0190,
+    "Lancaster": 0.0166,
+    "Sarpy": 0.0179
+  },
+  "NV": {
+    "default": 0.0084,
+    "Clark": 0.0088,
+    "Washoe": 0.0106,
+    "Carson City": 0.0121
+  },
+  "NH": {
+    "default": 0.0217,
+    "Hillsborough": 0.0222,
+    "Rockingham": 0.0209,
+    "Merrimack": 0.0230
+  },
+  "NJ": {
+    "default": 0.0241,
+    "Bergen": 0.0232,
+    "Middlesex": 0.0214,
+    "Essex": 0.0283
+  },
+  "NM": {
+    "default": 0.0068,
+    "Bernalillo": 0.0082,
+    "Santa Fe": 0.0059,
+    "Doña Ana": 0.0077
+  },
+  "NY": {
+    "default": 0.0172,
+    "New York": 0.0088,
+    "Kings": 0.0091,
+    "Queens": 0.0094,
+    "Bronx": 0.0099,
+    "Richmond": 0.0097,
+    "Westchester": 0.0235,
+    "Nassau": 0.0203,
+    "Suffolk": 0.0190
+  },
+  "NC": {
+    "default": 0.0084,
+    "Mecklenburg": 0.0099,
+    "Wake": 0.0075,
+    "Guilford": 0.0097
+  },
+  "ND": {
+    "default": 0.0098,
+    "Cass": 0.0109,
+    "Burleigh": 0.0097,
+    "Grand Forks": 0.0138
+  },
+  "OH": {
+    "default": 0.0158,
+    "Cuyahoga": 0.0220,
+    "Franklin": 0.0173,
+    "Hamilton": 0.0177
+  },
+  "OK": {
+    "default": 0.0089,
+    "Oklahoma": 0.0116,
+    "Tulsa": 0.0105,
+    "Cleveland": 0.0107
+  },
+  "OR": {
+    "default": 0.0097,
+    "Multnomah": 0.0105,
+    "Washington": 0.0103,
+    "Clackamas": 0.0109
+  },
+  "PA": {
+    "default": 0.0156,
+    "Philadelphia": 0.0090,
+    "Allegheny": 0.0210,
+    "Montgomery": 0.0162
+  },
+  "RI": {
+    "default": 0.0156,
+    "Providence": 0.0164,
+    "Kent": 0.0154,
+    "Washington": 0.0130
+  },
+  "SC": {
+    "default": 0.0057,
+    "Greenville": 0.0066,
+    "Richland": 0.0074,
+    "Charleston": 0.0056
+  },
+  "SD": {
+    "default": 0.0131,
+    "Minnehaha": 0.0169,
+    "Pennington": 0.0128,
+    "Lincoln": 0.0159
+  },
+  "TN": {
+    "default": 0.0072,
+    "Davidson": 0.0087,
+    "Shelby": 0.0107,
+    "Knox": 0.0071
+  },
+  "TX": {
+    "default": 0.0183,
+    "Harris": 0.0206,
+    "Dallas": 0.0210,
+    "Tarrant": 0.0201,
+    "Bexar": 0.0195,
+    "Travis": 0.0185
+  },
+  "UT": {
+    "default": 0.0064,
+    "Salt Lake": 0.0070,
+    "Utah": 0.0060,
+    "Davis": 0.0074
+  },
+  "VT": {
+    "default": 0.0189,
+    "Chittenden": 0.0170,
+    "Washington": 0.0212,
+    "Rutland": 0.0195
+  },
+  "VA": {
+    "default": 0.0080,
+    "Fairfax": 0.0107,
+    "Arlington": 0.0103,
+    "Loudon": 0.0102,
+    "Prince William": 0.0110
+  },
+  "WA": {
+    "default": 0.0097,
+    "King": 0.0096,
+    "Pierce": 0.0117,
+    "Snohomish": 0.0099
+  },
+  "WV": {
+    "default": 0.0057,
+    "Kanawha": 0.0062,
+    "Berkeley": 0.0068,
+    "Cabell": 0.0058
+  },
+  "WI": {
+    "default": 0.0189,
+    "Milwaukee": 0.0233,
+    "Dane": 0.0198,
+    "Waukesha": 0.0174
+  },
+  "WY": {
+    "default": 0.0061,
+    "Laramie": 0.0068,
+    "Natrona": 0.0074,
+    "Campbell": 0.0063
+  },
+  "DC": {
+    "default": 0.0052
+  }
+}

@@ -1,0 +1,33 @@
+# macOS specific files
+.DS_Store
+
+# Environment variables
+.env
+
+# Backup files
+*.bak
+
+# Test, temporary, old, or non-core files
+test-*.html
+test.html
+index.html.bak
+visualization.js.bak
+script.js
+visualization.js
+js/visualization-fixed.js
+dti-calculator/test-*.html
+dti-calculator/minimal.html
+dti-calculator/index-fixed.html
+dti-calculator/js/*-fixed.js
+dti-calculator/README.md
+
+# Documentation/Notes (excluding main READMEs)
+Questions from CLine clarifying file structure.md
+integration_checklist.md
+integration_summary.md
+troubleshooting_solution.md
+UIissues.md
+file_structure_diagram.mmd
+
+# References directory
+references/

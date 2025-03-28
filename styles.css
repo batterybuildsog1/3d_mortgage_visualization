@@ -1,0 +1,580 @@
+/* Base styles */
+:root {
+    --bg-color: #111827;
+    --text-color: #ffffff;
+    --accent-cyan: #06b6d4;
+    --accent-purple: #8b5cf6;
+    --accent-pink: #ec4899;
+    --card-bg: rgba(31, 41, 55, 0.7);
+    --border-color: rgba(139, 92, 246, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Cyberpunk background effects */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 20%);
+    z-index: -2;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(transparent 50%, rgba(80, 80, 120, 0.05) 50%),
+        linear-gradient(90deg, rgba(20, 0, 40, 0.03) 1px, transparent 1px),
+        linear-gradient(rgba(20, 0, 40, 0.03) 1px, transparent 1px);
+    background-size: 100% 4px, 20px 20px, 20px 20px;
+    z-index: -1;
+    animation: scanlines 10s linear infinite;
+}
+
+/* BEM Block: neomort-container */
+.neomort-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* BEM Block: neomort-header */
+.neomort-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+/* Element: neomort-header__title */
+.neomort-header__title {
+    font-size: 2rem;
+    background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+}
+
+/* Element: neomort-header__title-accent */
+.neomort-header__title-accent {
+    color: var(--accent-pink);
+}
+
+/* BEM Block: neomort-version */
+.neomort-version {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Element: neomort-version__tag */
+.neomort-version__tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* Modifier: neomort-version__tag--version */
+.neomort-version__tag--version {
+    background-color: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.5);
+    color: var(--accent-cyan);
+}
+
+/* Modifier: neomort-version__tag--beta */
+.neomort-version__tag--beta {
+    background-color: rgba(6, 182, 212, 0.2);
+    border: 1px solid rgba(6, 182, 212, 0.5);
+    color: var(--accent-purple);
+}
+
+/* BEM Block: neomort-layout */
+.neomort-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .neomort-layout {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+/* BEM Block: neomort-panel */
+.neomort-panel {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 20px rgba(139, 92, 246, 0.1);
+}
+
+/* Element: neomort-panel__title */
+.neomort-panel__title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    color: var(--accent-cyan);
+}
+
+/* Element: neomort-panel__title-icon */
+.neomort-panel__title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+    background-color: rgba(6, 182, 212, 0.2);
+    border-radius: 0.25rem;
+}
+
+/* BEM Block: neomort-form */
+.neomort-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Element: neomort-form__group */
+.neomort-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Element: neomort-form__label */
+.neomort-form__label {
+    font-size: 0.875rem;
+    color: var(--accent-pink);
+}
+
+/* Element: neomort-form__input-wrapper */
+.neomort-form__input-wrapper {
+    position: relative;
+}
+
+/* Element: neomort-form__input-prefix */
+.neomort-form__input-prefix {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+}
+
+/* Element: neomort-form__input */
+.neomort-form__input {
+    width: 100%;
+    padding: 0.5rem 0.75rem 0.5rem 2rem; /* Adjust padding if prefix is part of the input */
+    background-color: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.5);
+    border-radius: 0.375rem;
+    color: var(--text-color);
+    font-family: 'Courier New', monospace;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.neomort-form__input:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 0 1px var(--accent-cyan), 0 0 10px rgba(6, 182, 212, 0.3);
+}
+
+/* BEM Block: neomort-slider (assuming slider is a block within the form group) */
+/* Element: neomort-slider__header */
+.neomort-slider__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Element: neomort-slider__value */
+.neomort-slider__value {
+    color: var(--accent-cyan);
+}
+
+/* Element: neomort-slider__input */
+.neomort-slider__input {
+    width: 100%;
+    height: 0.5rem;
+    background-color: #374151;
+    border-radius: 0.25rem;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.neomort-slider__input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.neomort-slider__input::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/* Element: neomort-slider__labels */
+.neomort-slider__labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* BEM Block: neomort-loan-types */
+.neomort-loan-types {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+/* Element: neomort-loan-types__button */
+.neomort-loan-types__button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    background-color: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    color: #9ca3af;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.neomort-loan-types__button:hover {
+    background-color: rgba(31, 41, 55, 0.8);
+    border-color: rgba(139, 92, 246, 0.5);
+}
+
+/* Modifier: neomort-loan-types__button--active */
+.neomort-loan-types__button--active {
+    background: linear-gradient(to right, var(--accent-purple), var(--accent-cyan));
+    border-color: rgba(139, 92, 246, 0.6);
+    color: white;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+/* BEM Block: neomort-calculate-button */
+.neomort-calculate-button {
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+    border: none;
+    border-radius: 0.375rem;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.neomort-calculate-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.neomort-calculate-button:hover::before {
+    left: 100%;
+}
+
+.neomort-calculate-button:hover {
+    background: linear-gradient(to right, #7c3aed, #db2777);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+}
+
+/* Element: neomort-form__info */
+.neomort-form__info {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+/* BEM Block: neomort-results */
+.neomort-results {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .neomort-results {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Element: neomort-results__card */
+.neomort-results__card {
+    background-color: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 0.375rem;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* BEM Block: neomort-card (reusable for result-card and result-mini-card) */
+/* Element: neomort-card__label */
+.neomort-card__label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+}
+
+/* Element: neomort-card__value */
+.neomort-card__value {
+    font-size: 1.5rem; /* Default size, overridden in mini-card */
+    font-weight: bold;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+}
+
+/* BEM Block: neomort-results-extra */
+.neomort-results-extra {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .neomort-results-extra {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Element: neomort-results-extra__card */
+.neomort-results-extra__card {
+    background-color: rgba(17, 24, 39, 0.4);
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+}
+
+/* Override for value size in mini card */
+.neomort-results-extra__card .neomort-card__value {
+    font-size: 1.125rem;
+}
+
+/* Element: neomort-panel__header */
+.neomort-panel__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* BEM Block: neomort-viz-controls */
+.neomort-viz-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Element: neomort-viz-controls__select */
+.neomort-viz-controls__select {
+    background-color: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+/* Element: neomort-viz-controls__button */
+.neomort-viz-controls__button {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--accent-cyan); /* Default color */
+    cursor: pointer;
+    background-color: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.3); /* Default border */
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+/* Modifier: neomort-viz-controls__button--options */
+.neomort-viz-controls__button--options {
+    /* Inherits base button styles */
+}
+
+/* Modifier: neomort-viz-controls__button--fullscreen */
+.neomort-viz-controls__button--fullscreen {
+    border-color: rgba(6, 182, 212, 0.5); /* Specific border for fullscreen */
+}
+
+.neomort-viz-controls__button--fullscreen:hover {
+    background-color: rgba(31, 41, 55, 0.9);
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+}
+
+/* Modifier: neomort-viz-controls__button--toggle-mode */
+.neomort-viz-controls__button--toggle-mode {
+     /* Inherits base button styles */
+     /* Specific styles might be added based on data-mode attribute if needed */
+}
+
+
+/* Fullscreen mode styling - applied to the container */
+.neomort-visualization--fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    background-color: var(--bg-color) !important;
+}
+
+/* BEM Block: neomort-visualization */
+.neomort-visualization {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Default height */
+    background-color: rgba(17, 24, 39, 0.8);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 0.375rem;
+    overflow: hidden;
+}
+
+/* Element: neomort-visualization__canvas (Applied to the div with ID #visualization) */
+.neomort-visualization__canvas {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    cursor: grab;
+}
+
+.neomort-visualization__canvas:active {
+    cursor: grabbing;
+}
+
+/* Element: neomort-visualization__placeholder */
+.neomort-visualization__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+    background-color: rgba(17, 24, 39, 0.6);
+}
+
+/* Element: neomort-visualization__placeholder-title */
+.neomort-visualization__placeholder-title {
+    font-weight: bold;
+    color: var(--accent-cyan);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Element: neomort-visualization__placeholder-text */
+.neomort-visualization__placeholder-text {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    max-width: 25rem;
+}
+
+/* BEM Block: neomort-footer */
+.neomort-footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.75rem;
+}
+
+/* Element: neomort-footer__text */
+.neomort-footer__text {
+    margin: 0.25rem 0;
+}
+
+/* --- Animations --- */
+@keyframes scanlines {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 4px; }
+}
+
+@keyframes glow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 768px) {
+    .neomort-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .neomort-panel__title {
+        font-size: 1.1rem;
+    }
+    
+    .neomort-card__value { /* Adjust default value size for smaller screens */
+        font-size: 1.2rem;
+    }
+    /* Ensure mini-card value override still works if needed */
+    .neomort-results-extra__card .neomort-card__value {
+        font-size: 1.1rem; /* Slightly smaller on mobile */
+    }
+
+    .neomort-visualization {
+        height: 300px;
+    }
+}

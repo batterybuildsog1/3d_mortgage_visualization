@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "source": "Mortgage News Daily",
+    "retrievalDate": "2025-03-26T12:00:00Z",
+    "version": "1.0.0",
+    "description": "Current FHA mortgage rates"
+  },
+  "rates": {
+    "30": 6.375,
+    "15": 5.625,
+    "ARM5": 5.875
+  },
+  "historicalRates": [
+    {
+      "date": "2025-03-25",
+      "30": 6.400,
+      "15": 5.650,
+      "ARM5": 5.900
+    },
+    {
+      "date": "2025-03-24",
+      "30": 6.425,
+      "15": 5.675,
+      "ARM5": 5.925
+    },
+    {
+      "date": "2025-03-23",
+      "30": 6.450,
+      "15": 5.700,
+      "ARM5": 5.950
+    }
+  ]
+}

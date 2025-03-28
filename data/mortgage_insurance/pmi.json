@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "source": "Estimated Private Mortgage Insurance Rates",
+    "effectiveDate": "2025-01-01",
+    "expirationDate": null,
+    "version": "1.0.0",
+    "description": "Conventional loan PMI rates based on credit score and LTV"
+  },
+  "rates": {
+    "760": {
+      "80": 0.00,
+      "85": 0.25,
+      "90": 0.31,
+      "95": 0.49,
+      "97": 0.58
+    },
+    "740": {
+      "80": 0.00,
+      "85": 0.28,
+      "90": 0.38,
+      "95": 0.52,
+      "97": 0.62
+    },
+    "720": {
+      "80": 0.00,
+      "85": 0.33,
+      "90": 0.45,
+      "95": 0.61,
+      "97": 0.72
+    },
+    "700": {
+      "80": 0.00,
+      "85": 0.38,
+      "90": 0.59,
+      "95": 0.76,
+      "97": 0.85
+    },
+    "680": {
+      "80": 0.00,
+      "85": 0.45,
+      "90": 0.73,
+      "95": 0.89,
+      "97": 0.97
+    },
+    "660": {
+      "80": 0.00,
+      "85": 0.56,
+      "90": 0.82,
+      "95": 1.12,
+      "97": 1.21
+    },
+    "640": {
+      "80": 0.00,
+      "85": 0.72,
+      "90": 0.94,
+      "95": 1.26,
+      "97": 1.35
+    },
+    "620": {
+      "80": 0.00,
+      "85": 0.88,
+      "90": 1.18,
+      "95": 1.53,
+      "97": 1.65
+    }
+  },
+  "cancellation": {
+    "automatic": "78% LTV based on original value",
+    "byRequest": "80% LTV based on original or current value",
+    "minimumMonths": 24
+  },
+  "adjustments": {
+    "investmentProperty": 0.75,
+    "secondHome": 0.25,
+    "2units": 0.25,
+    "3to4units": 0.50,
+    "cashOutRefi": 0.20
+  }
+}

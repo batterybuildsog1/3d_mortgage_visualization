@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "source": "USDA Rural Development",
+    "effectiveDate": "2025-01-01",
+    "expirationDate": null,
+    "version": "1.0.0",
+    "description": "USDA Guarantee Fee rates"
+  },
+  "upfront": 1.00,
+  "annual": 0.35,
+  "duration": "lifeOfLoan",
+  "eligibility": {
+    "location": "Rural area as defined by USDA",
+    "income": {
+      "description": "Up to 115% of area median income",
+      "url": "https://eligibility.sc.egov.usda.gov/eligibility/incomeEligibilityAction.do"
+    },
+    "property": "Primary residence only"
+  },
+  "benefits": {
+    "downPayment": "0% minimum",
+    "loanAmount": "100% of appraised value",
+    "creditScore": "640 minimum recommended"
+  }
+}

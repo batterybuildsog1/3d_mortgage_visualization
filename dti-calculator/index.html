@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage DTI Calculator</title>
+  <link rel="stylesheet" href="css/dti-calculator.css">
+  <link rel="stylesheet" href="../css/ai-chat.css"> <!-- Link the new AI chat CSS (relative path) -->
+</head>
+<body>
+  <div id="dti-calculator-container"></div>
+  <!-- Removed old hidden ai-assistant-container -->
+  <!-- Removed duplicate ai-chat-container HTML -->
+  <!-- Removed inline chat styles -->
+
+  <script type="module">
+    import DTICalculator from './js/dti-calculator.js';
+    // Import the centralized initializer
+    import { initializeGlobalChat } from './js/integration.js';
+
+    // Initialize the DTI calculator
+    const calculator = new DTICalculator('dti-calculator-container');
+
+    // Initialize the global chat UI (if not already done)
+    // Pass initial data from the calculator
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeGlobalChat({
+            calculations: calculator.state.calculations,
+            eligibility: calculator.state.eligibility
+        });
+
+        // Optional: Add listener to update AI data when calculator results change
+        // This requires the DTICalculator to emit an event or have a callback
+        // Example (assuming an 'update' event):
+        // calculator.addEventListener('update', (updatedState) => {
+        //    initializeGlobalChat({ // Call again to update data
+        //        calculations: updatedState.calculations,
+        //        eligibility: updatedState.eligibility
+        //    });
+        // });
+    });
+
+    // Removed old AI assistant button listener
+    // Removed old AI Chat initialization logic
+  </script>
+</body>
+</html>

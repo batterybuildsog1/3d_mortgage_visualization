@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "source": "U.S. Department of Veterans Affairs",
+    "effectiveDate": "2025-01-01",
+    "expirationDate": null,
+    "version": "1.0.0",
+    "description": "VA Funding Fee rates"
+  },
+  "fundingFee": {
+    "firstTimeUse": {
+      "downPaymentLessThan5": 2.15,
+      "downPaymentBetween5And10": 1.50,
+      "downPaymentGreaterThan10": 1.25
+    },
+    "subsequentUse": {
+      "downPaymentLessThan5": 3.30,
+      "downPaymentBetween5And10": 1.75,
+      "downPaymentGreaterThan10": 1.50
+    },
+    "reservistOrGuard": {
+      "firstTimeUse": {
+        "downPaymentLessThan5": 2.40,
+        "downPaymentBetween5And10": 1.75,
+        "downPaymentGreaterThan10": 1.50
+      },
+      "subsequentUse": {
+        "downPaymentLessThan5": 3.30,
+        "downPaymentBetween5And10": 1.75,
+        "downPaymentGreaterThan10": 1.50
+      }
+    }
+  },
+  "exemptions": [
+    "Veteran receiving VA compensation for service-connected disability",
+    "Veteran who would be entitled to receive compensation but is receiving retirement pay",
+    "Surviving spouse of a Veteran who died in service or from a service-connected disability",
+    "Active duty service member who has received a Purple Heart"
+  ],
+  "mortgageInsurance": {
+    "upfront": 0.00,
+    "annual": 0.00
+  }
+}
