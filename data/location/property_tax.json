@@ -3,9 +3,16 @@
     "source": "Estimated national property tax rates",
     "effectiveDate": "2025-01-01",
     "version": "1.0.0",
-    "description": "Average property tax rates by state and county"
+    "description": "Average property tax rates by state and county, including typical tax payment cycles."
   },
-  "default": 0.01,
+  "default": {
+     "rate": 0.01,
+     "taxCycle": {
+       "frequency": "SemiAnnually",
+       "dueDates": ["03-01", "09-01"],
+       "notes": "Generic default, actual cycles vary widely."
+     }
+  },
   "AL": {
     "default": 0.0041,
     "Jefferson": 0.0052,
@@ -32,6 +39,11 @@
   },
   "CA": {
     "default": 0.0073,
+    "taxCycle": {
+       "frequency": "SemiAnnually",
+       "dueDates": ["11-01", "02-01"],
+       "notes": "Due Nov 1st (for July-Dec) and Feb 1st (for Jan-June). Delinquent after Dec 10th / Apr 10th."
+    },
     "Los Angeles": 0.0069,
     "San Diego": 0.0077,
     "San Francisco": 0.0065,
@@ -42,6 +54,11 @@
   },
   "CO": {
     "default": 0.0051,
+     "taxCycle": {
+       "frequency": "SemiAnnually",
+       "dueDates": ["02-28", "06-15"],
+       "notes": "Option 1: Due end of Feb, June 15th. Delinquent Mar 1st, June 16th."
+    },
     "Denver": 0.0057,
     "El Paso": 0.0054,
     "Arapahoe": 0.0060
@@ -273,6 +290,11 @@
   },
   "TX": {
     "default": 0.0183,
+    "taxCycle": {
+       "frequency": "Annually",
+       "dueDates": ["01-31"],
+       "notes": "Due Jan 31st (for previous year), delinquent Feb 1st."
+    },
     "Harris": 0.0206,
     "Dallas": 0.0210,
     "Tarrant": 0.0201,

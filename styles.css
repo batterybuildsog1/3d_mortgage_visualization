@@ -374,6 +374,24 @@ body::after {
     text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
 }
 
+/* Modifier: neomort-card__value--overridden */
+.neomort-card__value--overridden {
+    color: var(--accent-pink); /* Change color to indicate override */
+    text-shadow: 0 0 10px rgba(236, 72, 153, 0.4); /* Optional: Adjust shadow */
+    position: relative; /* Needed for potential pseudo-element marker */
+}
+/* Optional: Add a small marker */
+/*
+.neomort-card__value--overridden::after {
+    content: '*';
+    position: absolute;
+    top: 0;
+    right: -0.5em;
+    font-size: 0.8em;
+    color: var(--accent-pink);
+}
+*/
+
 /* BEM Block: neomort-results-extra */
 .neomort-results-extra {
     display: grid;

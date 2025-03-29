@@ -33,6 +33,24 @@
                                 <input class="neomort-form__input" type="number" id="income" value="75000">
                             </div>
                         </div>
+
+                        <!-- Purchase Price Goal input -->
+                        <div class="neomort-form__group">
+                            <label class="neomort-form__label" for="purchase-price">PURCHASE PRICE GOAL</label>
+                            <div class="neomort-form__input-wrapper">
+                                <span class="neomort-form__input-prefix">$</span>
+                                <input class="neomort-form__input" type="number" id="purchase-price" value="350000">
+                            </div>
+                        </div>
+
+                        <!-- Down Payment Amount input -->
+                        <div class="neomort-form__group">
+                            <label class="neomort-form__label" for="down-payment-amount">DOWN PAYMENT AMOUNT</label>
+                            <div class="neomort-form__input-wrapper">
+                                <span class="neomort-form__input-prefix">$</span>
+                                <input class="neomort-form__input" type="number" id="down-payment-amount" value="17500"> <!-- Example 5% of 350k -->
+                            </div>
+                        </div>
                         
                         <!-- Location input -->
                         <div class="neomort-form__group">
@@ -81,6 +99,31 @@
                                 <button class="neomort-loan-types__button" data-loan-type="USDA">USDA</button>
                             </div>
                         </div>
+
+                        <!-- Advanced Overrides Section (Collapsible) -->
+                        <details class="neomort-form__details">
+                            <summary class="neomort-form__summary">Advanced Overrides (Optional)</summary>
+                            <div class="neomort-form__details-content">
+                                <p class="neomort-form__details-info">Enter known values to refine estimates. Leave blank to use calculated estimates.</p>
+                                <!-- Annual Property Tax Override -->
+                                <div class="neomort-form__group">
+                                    <label class="neomort-form__label" for="override-annual-tax">Known Annual Property Tax</label>
+                                    <div class="neomort-form__input-wrapper">
+                                        <span class="neomort-form__input-prefix">$</span>
+                                        <input class="neomort-form__input" type="number" id="override-annual-tax" placeholder="e.g., 3500">
+                                    </div>
+                                </div>
+                                <!-- Annual HOI Override -->
+                                <div class="neomort-form__group">
+                                    <label class="neomort-form__label" for="override-annual-hoi">Known Annual Home Insurance</label>
+                                    <div class="neomort-form__input-wrapper">
+                                        <span class="neomort-form__input-prefix">$</span>
+                                        <input class="neomort-form__input" type="number" id="override-annual-hoi" placeholder="e.g., 1200">
+                                    </div>
+                                </div>
+                                <!-- Add more override fields here later as needed (e.g., Appraisal Fee) -->
+                            </div>
+                        </details>
                         
                         <!-- Calculate button -->
                         <button class="neomort-calculate-button">CALCULATE BORROWING POWER</button>
@@ -124,8 +167,8 @@
                             </div>
                             
                             <div class="neomort-results-extra__card">
-                                <p class="neomort-card__label">DEBT-TO-INCOME</p>
-                                <p class="neomort-card__value">41%</p>
+                                <p class="neomort-card__label">ACTUAL / EST. MAX DTI</p> 
+                                <p class="neomort-card__value" id="dti-value">--% / --%</p> <!-- Added ID and placeholder -->
                             </div>
                             
                             <div class="neomort-results-extra__card">
@@ -198,6 +241,14 @@
     <!-- Remove explicit script loads for modules; Vite handles the entry point -->
     <!-- Vite entry point -->
     <script type="module" src="/main.js"></script> 
+
+    <!-- Financial Snapshot Modal -->
+    <div id="financial-snapshot-modal" class="snapshot-modal">
+        <div class="snapshot-content">
+            <!-- Content will be dynamically loaded here by js/financial-snapshot/ui.js -->
+            <p>Loading Financial Snapshot...</p>
+        </div>
+    </div>
 
 </body>
 </html>

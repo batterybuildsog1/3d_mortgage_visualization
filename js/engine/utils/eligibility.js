@@ -147,9 +147,10 @@ function checkVAEligibility(ficoScore, ltv, dti, isVeteran) {
   const result = {
     eligible: true,
     reason: '',
-    alternatives: []
+    alternatives: [],
+    vaFundingFeeWaived: false // Default to false
   };
-  
+
   // For the 3D visualization demo purposes, we're assuming the user is eligible for VA loans
   // In a real application, you would check veteran status
   /* 
@@ -157,10 +158,23 @@ function checkVAEligibility(ficoScore, ltv, dti, isVeteran) {
     result.eligible = false;
     result.reason = 'Must be a qualifying veteran, service member, or surviving spouse for VA loans';
     result.alternatives.push('Conventional', 'FHA', 'USDA');
-    return result;
+    return result; // Early exit if not a veteran
   }
   */
-  
+
+  // Simplified logic for demo: Assume waiver if veteran status is true AND disability (not available)
+  // In reality, waiver depends on receiving VA compensation for service-connected disability,
+  // or being a surviving spouse of a veteran who died in service or from service-connected disability.
+  // We'll use isVeteran as a proxy for potential waiver eligibility for now.
+  if (isVeteran) {
+      // Placeholder: In a real app, check disability status.
+      // For demo, let's assume some veterans might have it waived.
+      // Setting to true if isVeteran is true for demonstration.
+      result.vaFundingFeeWaived = true;
+      // console.log("VA Funding Fee potentially waived based on veteran status (demo logic).");
+  }
+
+
   // Check credit score
   if (ficoScore < 580) {
     result.eligible = false;

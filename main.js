@@ -1,6 +1,7 @@
 // Import global styles
 import './styles.css';
 import './css/ai-chat.css';
+import './css/financial-snapshot.css'; // Import snapshot styles
 // Note: dti-calculator.css is likely loaded dynamically or within its own scope,
 // so we might not need to import it globally here.
 

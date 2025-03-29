@@ -1,175 +1,224 @@
 /**
  * NEOMORT Calculator main script
- * 
+ *
  * Handles UI interactions and connects to the calculation engine.
  */
-// Import the centralized chat initializer
 import { initializeGlobalChat } from '../dti-calculator/js/integration.js';
 import VisualizationAdapter from './adapters/visualization-adapter.js';
 import { initDTICalculatorIntegration } from './dti-integration.js';
-import { initializeVisualization } from './visualization/index.js'; // Import the visualization initializer
-// Removed AIChatHandler import
+import { initializeVisualization } from './visualization/index.js';
+import { initSnapshot } from './financial-snapshot/snapshot.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('NEOMORT Calculator initialized');
-    
-    // --- Check if we are in the main page context ---
-    // If a key element like the income input doesn't exist, assume we are in the popup
-    // and skip the main page setup.
+
     const incomeInput = document.getElementById('income');
     if (!incomeInput) {
         console.log('Main page elements not found, skipping main setup (likely in popup).');
-        return; // Exit if not on the main page
+        return;
     }
-    // --- End Check ---
 
-
-    // Get UI elements (only run if incomeInput exists)
+    // Get UI elements
+    const purchasePriceInput = document.getElementById('purchase-price');
+    const downPaymentAmountInput = document.getElementById('down-payment-amount');
     const locationInput = document.getElementById('location');
     const ltvSlider = document.getElementById('ltv');
     const ltvValue = document.getElementById('ltv-value');
     const ficoSlider = document.getElementById('fico');
     const ficoValue = document.getElementById('fico-value');
-    const loanTypeButtons = document.querySelectorAll('.neomort-loan-types__button'); // Updated BEM class
-    const calculateBtn = document.querySelector('.neomort-calculate-button'); // Corrected BEM class
-    
-    // Results elements
-    const loanAmountEl = document.getElementById('loan-amount');
-    const purchasingPowerEl = document.getElementById('purchasing-power'); // Assuming this ID exists
-    const downPaymentEl = document.getElementById('down-payment');
-    const monthlyPaymentEl = document.getElementById('monthly-payment');
-    const interestRateEl = document.getElementById('interest-rate');
+    const loanTypeButtons = document.querySelectorAll('.neomort-loan-types__button');
+    const calculateBtn = document.querySelector('.neomort-calculate-button'); // Keep reference to potentially hide/disable later
+    const overrideAnnualTaxInput = document.getElementById('override-annual-tax');
+    const overrideAnnualHoiInput = document.getElementById('override-annual-hoi');
     const selectedLoanTypeEl = document.getElementById('selected-loan-type');
-    
-    // Initialize values
-    let income = 75000;
-    let location = '';
-    let ltv = 95;
-    let ficoScore = 680;
-    let loanType = 'FHA';
-    
-    // Update slider displays
+
+    // State variables
+    let snapshotCompleted = false; // Flag to track if snapshot ran
+    let lastEstimatedDTIs = null; // Store the object of results from snapshot { Conventional: 0.5, FHA: 0.48, ... }
+
+    // --- Helper to gather current user data ---
+    function getCurrentUserData() {
+        const income = parseFloat(incomeInput?.value) || 0;
+        const purchasePriceGoal = parseFloat(purchasePriceInput?.value) || 0;
+        const dpAmount = parseFloat(downPaymentAmountInput?.value) || 0;
+        const location = locationInput?.value || '';
+        const ltv = parseInt(ltvSlider?.value) || 0;
+        const ficoScore = parseInt(ficoSlider?.value) || 0;
+        const loanType = document.querySelector('.neomort-loan-types__button.neomort-loan-types__button--active')?.dataset.loanType || 'FHA';
+
+        const annualTaxOverride = overrideAnnualTaxInput?.value ? parseFloat(overrideAnnualTaxInput.value) : undefined;
+        const annualHoiOverride = overrideAnnualHoiInput?.value ? parseFloat(overrideAnnualHoiInput.value) : undefined;
+
+        const overrides = {};
+        if (annualTaxOverride !== undefined && !isNaN(annualTaxOverride) && annualTaxOverride >= 0) {
+            overrides.AnnualPropertyTaxAmount = annualTaxOverride;
+        }
+        if (annualHoiOverride !== undefined && !isNaN(annualHoiOverride) && annualHoiOverride >= 0) {
+            overrides.AnnualHOI = annualHoiOverride;
+        }
+
+        // Get the specific estimated DTI for the currently selected loan type
+        const currentEstimatedMaxDTI = lastEstimatedDTIs ? (lastEstimatedDTIs[loanType] ?? null) : null;
+        console.log(`Getting user data: Selected Loan Type: ${loanType}, Specific Estimated Max DTI: ${currentEstimatedMaxDTI}`);
+
+
+        return {
+            income, // Annual
+            purchasePriceGoal, // Use consistent naming
+            dpAmount,
+            location,
+            ltv, // Integer 0-100
+            ficoScore,
+            loanType,
+            overrides: Object.keys(overrides).length > 0 ? overrides : undefined,
+            estimatedMaxDTI: currentEstimatedMaxDTI // Include the specific stored estimate for the selected loan type
+        };
+    }
+
+    // --- Function to trigger calculation AFTER snapshot ---
+    async function runCalculation() {
+        if (!snapshotCompleted) {
+            console.log("Snapshot not completed yet, calculation deferred.");
+            // Optionally show a message to the user?
+            return;
+        }
+        console.log("Running main calculation...");
+        const userData = getCurrentUserData();
+
+        // Prepare data for the engine (similar to before, but use gathered data)
+        const engineUserData = {
+            income: userData.income,
+            location: userData.location,
+            ltv: userData.ltv,
+            ficoScore: userData.ficoScore,
+            loanType: userData.loanType,
+            purchasePrice: userData.purchasePriceGoal,
+            overrides: userData.overrides,
+            estimatedMaxDTI: userData.estimatedMaxDTI // Pass estimate along
+        };
+
+        try {
+            await VisualizationAdapter.updateVisualization(engineUserData);
+        } catch (error) {
+            console.error('Error running main calculation:', error);
+        }
+    }
+
+
+    // --- Function to run snapshot ONCE on load ---
+    function runInitialSnapshot() {
+        console.log('Running initial Financial Snapshot on page load.');
+        const initialData = getCurrentUserData(); // Get initial values from form
+
+        const snapshotParams = {
+            income: initialData.income / 12,
+            fico: initialData.ficoScore.toString(),
+            ltv: initialData.ltv / 100,
+            loanType: initialData.loanType,
+            purchasePriceGoal: initialData.purchasePriceGoal,
+            dpAmount: initialData.dpAmount,
+        };
+
+        console.log('Starting Financial Snapshot with initial params:', snapshotParams);
+
+        // Update the callback to receive the object
+        initSnapshot(snapshotParams, (allEstimatedDTIs) => {
+            // --- Snapshot Callback ---
+            console.log("Initial Snapshot complete! All Estimated Max DTIs:", allEstimatedDTIs);
+            snapshotCompleted = true;
+            lastEstimatedDTIs = allEstimatedDTIs; // Store the entire object
+
+            // Now run the first calculation automatically
+            runCalculation();
+
+            // Potentially hide or disable the original "Calculate" button now
+            if (calculateBtn) {
+                 // calculateBtn.style.display = 'none'; // Option 1: Hide
+                 calculateBtn.textContent = 'Recalculate'; // Option 2: Change text
+                 calculateBtn.removeEventListener('click', runInitialSnapshot); // Remove old listener if any
+                 calculateBtn.addEventListener('click', runCalculation); // Make button trigger recalculation
+                 console.log("Calculate button repurposed for recalculation.");
+            }
+        });
+    }
+
+    // --- Event Listeners Setup ---
+
+    // Sliders trigger recalculation directly (after snapshot)
     ltvSlider.addEventListener('input', function() {
-        ltv = this.value;
+        const ltv = parseInt(this.value);
         ltvValue.textContent = `${ltv}%`;
         const percentage = (ltv - 70) / (100 - 70) * 100;
         this.style.background = `linear-gradient(to right, var(--accent-cyan) 0%, var(--accent-cyan) ${percentage}%, #374151 ${percentage}%, #374151 100%)`;
+        runCalculation(); // Recalculate on change
     });
-    
+
     ficoSlider.addEventListener('input', function() {
-        ficoScore = this.value;
+        const ficoScore = parseInt(this.value);
         ficoValue.textContent = ficoScore;
         const percentage = (ficoScore - 580) / (850 - 580) * 100;
         this.style.background = `linear-gradient(to right, var(--accent-cyan) 0%, var(--accent-cyan) ${percentage}%, #374151 ${percentage}%, #374151 100%)`;
+        runCalculation(); // Recalculate on change
     });
-    
-    // Set initial slider backgrounds
-    ltvSlider.style.background = `linear-gradient(to right, var(--accent-cyan) 0%, var(--accent-cyan) ${(ltv-70)/(100-70)*100}%, #374151 ${(ltv-70)/(100-70)*100}%, #374151 100%)`;
-    ficoSlider.style.background = `linear-gradient(to right, var(--accent-cyan) 0%, var(--accent-cyan) ${(ficoScore-580)/(850-580)*100}%, #374151 ${(ficoScore-580)/(850-580)*100}%, #374151 100%)`;
-    
-    // Loan type selection
+
+    // Loan type selection triggers recalculation directly (after snapshot)
     loanTypeButtons.forEach(button => {
         button.addEventListener('click', function() {
             loanTypeButtons.forEach(btn => btn.classList.remove('neomort-loan-types__button--active'));
             this.classList.add('neomort-loan-types__button--active');
-            loanType = this.dataset.loanType;
-            if(selectedLoanTypeEl) selectedLoanTypeEl.textContent = loanType; // Check if element exists
-            calculateMortgage();
+            if(selectedLoanTypeEl) selectedLoanTypeEl.textContent = this.dataset.loanType;
+            runCalculation(); // Recalculate on change
         });
     });
-    
-    // Form input styling & blur calculation trigger
-    incomeInput.addEventListener('focus', function() {
-        this.style.borderColor = 'var(--accent-pink)';
-        this.style.boxShadow = '0 0 10px rgba(236, 72, 153, 0.3)';
-    });
-    incomeInput.addEventListener('blur', function() {
-        this.style.borderColor = 'rgba(139, 92, 246, 0.5)';
-        this.style.boxShadow = 'none';
-        calculateMortgage();
-    });
-    locationInput.addEventListener('focus', function() {
-        this.style.borderColor = 'var(--accent-pink)';
-        this.style.boxShadow = '0 0 10px rgba(236, 72, 153, 0.3)';
-    });
-    locationInput.addEventListener('blur', function() {
-        this.style.borderColor = 'rgba(139, 92, 246, 0.5)';
-        this.style.boxShadow = 'none';
-        // Optionally trigger calculation on location blur too, if desired
-        // calculateMortgage(); 
-    });
-    
-    /**
-     * Calculate mortgage details using the calculation engine
-     */
-    async function calculateMortgage() {
-        try {
-            // Get current values only if elements exist
-            income = parseFloat(incomeInput?.value) || 75000; // Use optional chaining
-            location = locationInput?.value || '';
-            ltv = ltvSlider?.value || 95;
-            ficoScore = ficoSlider?.value || 680;
-            // loanType is updated via button click listener
 
-            const userData = { income, location, ltv: parseInt(ltv), ficoScore: parseInt(ficoScore), loanType };
-            console.log('Calculating mortgage with:', userData);
-            
-            // Use visualization adapter
-            await VisualizationAdapter.updateVisualization(userData);
-            
-        } catch (error) {
-            console.error('Error calculating mortgage:', error);
-            // Update error display only if elements exist
-            document.querySelectorAll('.neomort-card__value').forEach(el => {
-                el.classList.remove('loading');
-                if (el.id !== 'selected-loan-type') {
-                    el.textContent = 'Error';
-                }
-            });
-        }
-    }
-    
-    // Add cyberpunk button effect only if button exists
-    if (calculateBtn) {
-        calculateBtn.addEventListener('mousedown', function() { this.style.transform = 'scale(0.98)'; });
-        calculateBtn.addEventListener('mouseup', function() { this.style.transform = 'scale(1)'; });
-        calculateBtn.addEventListener('mouseleave', function() { this.style.transform = 'scale(1)'; });
-        calculateBtn.addEventListener('click', calculateMortgage);
-    }
-    
-    // Call calculate initially
-    // --- Initialize Visualization and Inject into Adapter ---
+    // Text inputs trigger recalculation on blur (after snapshot)
+    [incomeInput, purchasePriceInput, downPaymentAmountInput, locationInput, overrideAnnualTaxInput, overrideAnnualHoiInput].forEach(input => {
+        input?.addEventListener('focus', function() {
+            this.style.borderColor = 'var(--accent-pink)';
+            this.style.boxShadow = '0 0 10px rgba(236, 72, 153, 0.3)';
+        });
+        input?.addEventListener('blur', function() {
+            this.style.borderColor = 'rgba(139, 92, 246, 0.5)';
+            this.style.boxShadow = 'none';
+            runCalculation(); // Recalculate on blur
+        });
+    });
+
+    // Remove the original button listener that called handleCalculateClick (which is removed)
+    // The new listener is added inside runInitialSnapshot callback
+
+    // --- Initialization ---
+
+    // Set initial slider backgrounds
+    ltvSlider.dispatchEvent(new Event('input'));
+    ficoSlider.dispatchEvent(new Event('input'));
+
+    // Initialize Visualization and Inject into Adapter
     const vizContainer = document.getElementById('visualization');
     if (vizContainer) {
-        const vizController = initializeVisualization(vizContainer, false); // Initialize for main page
+        const vizController = initializeVisualization(vizContainer, false);
         if (vizController) {
-            VisualizationAdapter.setVisualizationController(vizController); // Inject controller into adapter
+            VisualizationAdapter.setVisualizationController(vizController);
         } else {
             console.error("Failed to initialize visualization controller in script-new.js");
         }
     } else {
         console.error("Main visualization container '#visualization' not found in script-new.js");
     }
-    // --- End Initialization ---
 
-    // Call calculate initially (now that adapter has the controller)
-    calculateMortgage();
-    
-    // Add loading class animation style
-    document.querySelectorAll('.neomort-card__value').forEach(el => {
-        el.style.transition = 'all 0.3s ease';
-    });
-    
-    // Initialize DTI Calculator Integration (might need adjustment if button is inside modal now)
+    // Run the initial snapshot process
+    runInitialSnapshot(); // <<<< CALL SNAPSHOT ON LOAD >>>>
+
+    // Initialize DTI Calculator Integration (separate feature)
     initDTICalculatorIntegration(VisualizationAdapter);
 
-    // Initialize the global AI Chat (this should be safe even in popup)
+    // Initialize the global AI Chat
     const initialAIData = VisualizationAdapter.getLastCalculation ? VisualizationAdapter.getLastCalculation() : {};
     initializeGlobalChat(initialAIData);
 
 });
 
-// Add loading animation style to head (safe to run always)
+// Add loading animation style to head
 document.head.insertAdjacentHTML('beforeend', `
 <style>
     @keyframes loading {
@@ -180,5 +229,13 @@ document.head.insertAdjacentHTML('beforeend', `
     .neomort-card__value.loading {
         animation: loading 1s infinite;
     }
+    /* Style for overridden values */
+    .neomort-card__value--overridden {
+        /* Add a subtle indicator, e.g., a small asterisk or different color/style */
+        /* Example: */
+        /* color: var(--accent-pink); */
+        /* font-style: italic; */
+    }
+
 </style>
 `);

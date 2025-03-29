@@ -1,0 +1,372 @@
+/* css/financial-snapshot.css */
+/* Styles for the Financial Snapshot modal */
+
+#financial-snapshot-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dim background */
+    z-index: 1000; /* Ensure it's on top */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+}
+
+#financial-snapshot-modal.active {
+    display: flex; /* Use flex for centering */
+}
+
+.snapshot-modal-content {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 550px; /* Limit max width */
+    position: relative;
+    max-height: 90vh; /* Limit height */
+    display: flex;
+    flex-direction: column;
+}
+
+.snapshot-content {
+    overflow-y: auto; /* Allow content itself to scroll if needed */
+    padding-right: 15px; /* Add padding for scrollbar */
+    margin-right: -15px; /* Offset scrollbar padding */
+}
+
+/* --- Step Styling --- */
+.snapshot-step {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee; /* Separator */
+}
+
+.snapshot-step:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+
+.snapshot-step h2 {
+    font-size: 1.4em;
+    color: #333;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.snapshot-instruction,
+.snapshot-instruction.field-instruction {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.snapshot-instruction.field-instruction {
+    margin-top: 0;
+    margin-bottom: 10px; /* Less margin when directly above options */
+}
+
+
+/* --- Tooltips --- */
+.snapshot-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+    color: #007bff; /* Or a more subtle color */
+    font-size: 0.9em;
+    line-height: 1;
+}
+
+.snapshot-tooltip .tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    margin-left: -110px; /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+.snapshot-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- Form Elements --- */
+.snapshot-fields {
+    margin-bottom: 20px;
+}
+
+.snapshot-form-group {
+    margin-bottom: 18px;
+}
+
+.snapshot-form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.9em;
+}
+
+.snapshot-input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+}
+
+.snapshot-input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Display fields */
+.snapshot-form-group.field-display p,
+.snapshot-form-group.field-displayWithButtons p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #333;
+}
+.snapshot-form-group.field-display p strong,
+.snapshot-form-group.field-displayWithButtons p strong {
+    color: #555;
+    margin-right: 8px;
+}
+
+/* Radio Options / Segmented Control */
+.snapshot-options {
+    display: flex;
+    flex-direction: column; /* Stack options vertically */
+    gap: 10px; /* Space between options */
+}
+
+.snapshot-option {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.snapshot-option:hover {
+    background-color: #e9ecef;
+}
+
+.snapshot-option input[type="radio"] {
+    margin-right: 10px;
+    accent-color: #007bff; /* Style the radio button itself */
+    cursor: pointer;
+    width: 16px; /* Explicit size */
+    height: 16px;
+}
+
+.snapshot-option label {
+    margin-bottom: 0; /* Override default label margin */
+    font-weight: normal; /* Normal weight for options */
+    color: #333;
+    cursor: pointer;
+    flex-grow: 1; /* Allow label to take available space */
+}
+
+.snapshot-option input[type="radio"]:checked + label {
+    font-weight: 600; /* Bold label when checked */
+}
+
+.snapshot-option input[type="radio"]:checked ~ * { /* Style parent when checked */
+   /* Maybe change border or background slightly */
+   /* background-color: #e7f3ff; */
+   /* border-color: #a0cfff; */
+}
+
+
+/* --- Buttons --- */
+.snapshot-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 20px;
+}
+
+.snapshot-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.snapshot-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+/* Primary Button */
+.snapshot-button { /* Default to primary style */
+    background-color: #007bff;
+    color: white;
+}
+
+.snapshot-button:hover {
+    background-color: #0056b3;
+}
+
+/* Secondary Button */
+.snapshot-button.secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.snapshot-button.secondary:hover {
+    background-color: #5a6268;
+}
+
+/* --- Adjust Section --- */
+.snapshot-adjust-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed #ccc;
+}
+
+.snapshot-adjust-section h3 {
+    font-size: 1.1em;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.updated-total {
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: right;
+}
+
+.updated-total span {
+    color: #007bff;
+    margin-left: 10px;
+}
+
+/* --- Closing Costs Section --- */
+.snapshot-closing-costs {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.snapshot-closing-costs h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.snapshot-closing-costs ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.snapshot-closing-costs li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.snapshot-closing-costs li span:last-child {
+    font-weight: 600;
+    color: #333;
+}
+
+.snapshot-closing-costs .total-costs {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.snapshot-closing-costs .total-costs span:last-child {
+    color: #007bff;
+}
+
+/* --- Multi-DTI Summary Display --- */
+.snapshot-dti-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+}
+
+.snapshot-dti-summary h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.dti-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dti-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 1em;
+}
+
+.dti-item:last-child {
+    border-bottom: none;
+}
+
+.dti-loan-type {
+    color: #555;
+    font-weight: 500;
+}
+
+.dti-value {
+    font-weight: 600;
+    color: #007bff;
+}
+
+.summary-buttons {
+    margin-top: 25px; /* Add slightly more margin above the final button */
+}
