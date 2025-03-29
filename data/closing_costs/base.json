@@ -1,0 +1,349 @@
+{
+  "description": "Default closing cost estimates based on research. Values can be fixed, percentages, tiered, or use specific calculation logic. State variations provide overrides.",
+  "version": "1.1.0",
+  "fees": {
+    "Loan Origination Fee": {
+      "typicalAmount": "0.5% - 1.0% LA",
+      "calculationMethod": "tieredPercentageLoanAmount",
+      "tiers": [
+        { "upTo": 300000, "percentage": 0.010 },
+        { "upTo": 400000, "percentage": 0.009 },
+        { "upTo": 500000, "percentage": 0.008 },
+        { "upTo": 600000, "percentage": 0.007 },
+        { "upTo": 700000, "percentage": 0.006 }
+      ],
+      "minPercentage": 0.005,
+      "paidBy": "Borrower",
+      "category": "Lender Fees",
+      "regZFinanceCharge": true,
+      "notes": "Negotiable. Percentage may decrease for larger loans. Min 0.5%. See state variations."
+    },
+    "Application Fee": {
+      "typicalAmount": "$350-$450",
+      "calculationMethod": "tieredPurchasePrice",
+       "tiers": [
+         { "upTo": 300000, "amount": 350 },
+         { "upTo": 600000, "amount": 400 }
+       ],
+       "defaultAmount": 450,
+       "paidBy": "Borrower",
+       "category": "Lender Fees",
+       "regZFinanceCharge": true,
+       "notes": "Often $0 or bundled. Varies by lender. See state variations."
+    },
+     "Underwriting Fee": {
+      "typicalAmount": "$400-$600",
+      "calculationMethod": "tieredLoanAmount",
+      "tiers": [
+        { "upTo": 300000, "amount": 400 },
+        { "upTo": 500000, "amount": 500 }
+      ],
+      "defaultAmount": 600,
+      "paidBy": "Borrower",
+      "category": "Lender Fees",
+      "regZFinanceCharge": true,
+      "notes": "Covers loan evaluation. May be bundled. See state variations."
+    },
+    "Discount Points": {
+      "typicalAmount": "Varies (1% LA per point)",
+      "calculationMethod": "points",
+      "pointCostPercent": 0.01,
+      "rateReductionPerPoint": 0.0025,
+      "paidBy": "Borrower",
+      "category": "Lender Fees",
+      "regZFinanceCharge": true,
+      "notes": "Optional prepaid interest to lower rate. 1 point = 1% of Loan Amount. Typically lowers rate by 0.25%."
+    },
+     "Credit Report Fee": {
+      "typicalAmount": "$45 + $30/co-borrower",
+      "calculationMethod": "perBorrower",
+      "baseAmount": 45,
+      "perCoBorrowerAmount": 30,
+      "paidBy": "Borrower",
+      "category": "Third Party Fees",
+      "regZFinanceCharge": false,
+      "notes": "Cost for credit reports. Only fee allowed before Loan Estimate. See state variations."
+    },
+    "Appraisal Fee": {
+      "typicalAmount": "$500-$1300+",
+      "calculationMethod": "tieredPurchasePrice",
+      "tiers": [
+        { "upTo": 250000, "amount": 500 },
+        { "upTo": 400000, "amount": 560 },
+        { "upTo": 550000, "amount": 620 },
+        { "upTo": 700000, "amount": 680 },
+        { "upTo": 850000, "amount": 740 },
+        { "upTo": 1000000, "amount": 800 }
+      ],
+      "defaultAmount": 1300,
+      "paidBy": "Borrower",
+      "category": "Third Party Fees",
+      "regZFinanceCharge": false,
+      "notes": "Cost for property appraisal. Varies by property value/complexity. Reg Z: Excluded if bona fide/reasonable. See state variations."
+    },
+     "Home Inspection Fee": {
+        "typicalAmount": "$350-$500+",
+        "calculationMethod": "tieredSqFt",
+        "tiers": [
+            { "upTo": 2000, "amount": 350 },
+            { "upTo": 3000, "amount": 400 }
+        ],
+        "perAdditional1000SqFt": 50,
+        "ageAdjustment": { "overYears": 50, "amount": 75 },
+        "paidBy": "Borrower",
+        "category": "Third Party Fees",
+        "regZFinanceCharge": false,
+        "notes": "Optional but recommended. Paid outside closing typically. Varies by size/age. See state variations."
+    },
+    "Pest Inspection Fee": {
+        "typicalAmount": "$100-$175+",
+        "calculationMethod": "tieredSqFt",
+         "tiers": [
+            { "upTo": 2000, "amount": 100 }
+        ],
+        "perAdditional1000SqFt": 25,
+        "paidBy": "Borrower",
+        "category": "Third Party Fees",
+        "regZFinanceCharge": false,
+        "notes": "Often required for VA/FHA. Recommended in high-risk areas. Paid outside closing typically. See state variations."
+    },
+    "Flood Certification": {
+      "typicalAmount": "$20-$50",
+      "calculationMethod": "fixed",
+      "baseAmount": 35,
+      "paidBy": "Borrower",
+      "category": "Third Party Fees",
+      "regZFinanceCharge": false,
+      "notes": "Determines if property is in flood zone. Includes life-of-loan monitoring typically. See state variations."
+    },
+     "Attorney Fee": {
+        "typicalAmount": "$600-$1000+",
+        "calculationMethod": "tieredPurchasePrice",
+         "tiers": [
+           { "upTo": 500000, "amount": 750 }
+         ],
+         "perAdditional250k": 150,
+        "paidBy": "Borrower",
+        "category": "Third Party Fees",
+        "regZFinanceCharge": false,
+        "notes": "Varies greatly. Required in some states. See state variations."
+    },
+    "Tax Service Fee": {
+        "typicalAmount": 85,
+        "calculationMethod": "fixed",
+        "paidBy": "Borrower",
+        "category": "Lender Fees",
+        "regZFinanceCharge": true,
+        "notes": "Lender fee to monitor property tax payments."
+    },
+     "Document Preparation Fee": {
+        "typicalAmount": "$250-$350",
+        "calculationMethod": "tieredComplexity",
+        "baseAmount": 250,
+        "complexAmount": 350,
+        "paidBy": "Borrower",
+        "category": "Lender Fees",
+        "regZFinanceCharge": true,
+        "notes": "Fee for preparing closing docs. May be bundled. See state variations."
+    },
+     "Title Search/Examination": {
+        "typicalAmount": "$300-$550",
+        "calculationMethod": "fixedComplexity",
+        "baseAmount": 400,
+        "complexAmount": 500,
+        "paidBy": "Borrower",
+        "category": "Title & Settlement Fees",
+        "regZFinanceCharge": false,
+        "notes": "Cost to verify property ownership history. See state variations."
+    },
+    "Lender's Title Insurance": {
+      "typicalAmount": "$550-$1000+",
+      "calculationMethod": "tieredLoanAmount",
+       "tiers": [
+         { "upTo": 100000, "amount": 550 },
+         { "upTo": 250000, "amount": 750 }
+       ],
+       "perAdditional100k": 100,
+      "paidBy": "Borrower",
+      "category": "Title & Settlement Fees",
+      "regZFinanceCharge": false,
+      "notes": "Required by lender to protect their interest. One-time fee. See state variations."
+    },
+    "Owner's Title Insurance": {
+      "typicalAmount": "$850-$1500+",
+      "calculationMethod": "tieredPurchasePrice",
+       "tiers": [
+         { "upTo": 100000, "amount": 850 },
+         { "upTo": 250000, "amount": 1200 }
+       ],
+       "perAdditional100k": 200,
+      "paidBy": "Varies (Negotiable)",
+      "category": "Title & Settlement Fees",
+      "regZFinanceCharge": false,
+      "notes": "Optional but recommended. Protects owner's equity. Payment varies by region. See state variations."
+    },
+    "Settlement/Closing Fee": {
+      "typicalAmount": "$400-$1000+",
+      "calculationMethod": "tieredPurchasePrice",
+       "tiers": [
+         { "upTo": 250000, "amount": 400 }
+       ],
+       "perAdditional100k": 50,
+       "maxAmount": 1000,
+      "paidBy": "Borrower",
+      "category": "Title & Settlement Fees",
+      "regZFinanceCharge": false,
+      "notes": "Fee paid to title/escrow/attorney for handling closing. See state variations."
+    },
+     "Escrow/Impound Account Setup Fee": {
+        "typicalAmount": "$0-$75",
+        "calculationMethod": "fixed",
+        "baseAmount": 50,
+        "paidBy": "Borrower",
+        "category": "Lender Fees",
+        "regZFinanceCharge": false,
+        "notes": "Fee to set up escrow account. Often waived. Not the escrow funds themselves."
+    },
+    "Recording Fees": {
+      "typicalAmount": "$120-$250+",
+      "calculationMethod": "perPage",
+      "baseAmount": 120,
+      "perPageAmount": 5,
+      "paidBy": "Borrower",
+      "category": "Government Fees",
+      "regZFinanceCharge": false,
+      "notes": "County fee to record deed/mortgage. Varies greatly by county. See state variations."
+    },
+     "Transfer Tax": {
+        "typicalAmount": "Varies Greatly (0% - 4% PP)",
+        "calculationMethod": "percentagePurchasePrice",
+        "percentage": 0.001,
+        "paidBy": "Varies (Negotiable)",
+        "category": "Government Fees",
+        "regZFinanceCharge": false,
+        "notes": "State/County/City tax on property transfer. Huge variations. See state variations."
+    },
+     "HOA Transfer Fee": {
+        "typicalAmount": "$200-$500+",
+        "calculationMethod": "fixed",
+        "baseAmount": 350,
+        "paidBy": "Varies (Negotiable)",
+        "category": "Third Party Fees",
+        "regZFinanceCharge": false,
+        "notes": "Only applies if property is in an HOA. Covers record transfer. See state variations."
+    }
+  },
+  "prepaids": {
+    "interest": {
+      "calculationMethod": "perDiem",
+      "regZFinanceCharge": true,
+      "notes": "Interest from closing date to end of month. Formula: (Loan Amount * Rate / 365) * Days."
+    },
+    "homeownersInsurance": {
+      "calculationMethod": "escrow",
+      "typicalAnnualPremiumFormula": {
+          "baseValue": 300000,
+          "basePremium": 1200,
+          "scalingFactor": 0.004
+      },
+      "escrowCushionMonths": 2,
+      "monthsPrepaid": 12,
+      "regZFinanceCharge": false,
+      "notes": "Typically 1 year premium paid upfront + escrow cushion (e.g., 2 months). Varies by location/risk. See state variations."
+    },
+    "propertyTaxes": {
+      "calculationMethod": "escrow",
+      "escrowCushionMonths": 2,
+      "regZFinanceCharge": false,
+      "notes": "Amount depends on closing date relative to tax due dates in the location, plus cushion (e.g., 2 months)."
+    }
+  },
+  "stateVariations": {
+    "CA": {
+        "fees": {
+            "Loan Origination Fee": { "minPercentage": 0.0075 },
+            "Application Fee": { "baseAmount": 400, "defaultAmount": 500 },
+            "Underwriting Fee": { "baseAmount": 500, "defaultAmount": 700 },
+            "Credit Report Fee": { "baseAmount": 60, "perCoBorrowerAmount": 45 },
+            "Appraisal Fee": { "tiers": [{ "upTo": 250000, "amount": 600 }], "defaultAmount": 1600 },
+            "Home Inspection Fee": { "baseAdjustment": 100 },
+            "Pest Inspection Fee": { "baseAdjustment": 50 },
+            "Flood Certification": { "baseAmount": 45 },
+            "Attorney Fee": { "baseAdjustment": 100 },
+            "Document Preparation Fee": { "baseAmount": 325, "complexAmount": 425 },
+            "Title Search/Examination": { "baseAmount": 550, "complexAmount": 650 },
+            "Lender's Title Insurance": { "premiumAdjustmentFactor": 1.30 },
+            "Owner's Title Insurance": { "premiumAdjustmentFactor": 1.25, "paidBy": "Seller (N CA) / Buyer (S CA)" },
+            "Settlement/Closing Fee": { "baseAdjustment": 150, "maxAmount": 1500 },
+            "Recording Fees": { "baseAmount": 220 },
+            "Transfer Tax": { "percentage": 0.0011 },
+            "HOA Transfer Fee": { "baseAmount": 450 }
+        }
+    },
+     "NY": {
+        "fees": {
+             "Loan Origination Fee": { "minPercentage": 0.0075 },
+             "Application Fee": { "baseAmount": 400, "defaultAmount": 500 },
+             "Underwriting Fee": { "baseAmount": 500, "defaultAmount": 700 },
+             "Credit Report Fee": { "baseAmount": 60, "perCoBorrowerAmount": 45 },
+             "Appraisal Fee": { "tiers": [{ "upTo": 250000, "amount": 600 }], "defaultAmount": 1600 },
+             "Home Inspection Fee": { "baseAdjustment": 100 },
+             "Attorney Fee": { "baseAdjustment": 250, "notes": "Required state" },
+             "Document Preparation Fee": { "baseAmount": 325, "complexAmount": 425 },
+             "Title Search/Examination": { "baseAmount": 550, "complexAmount": 650 },
+             "Lender's Title Insurance": { "premiumAdjustmentFactor": 1.30 },
+             "Owner's Title Insurance": { "premiumAdjustmentFactor": 1.25, "paidBy": "Buyer" },
+             "Settlement/Closing Fee": { "baseAdjustment": 150, "maxAmount": 1500 },
+             "Recording Fees": { "baseAmount": 200 },
+             "Transfer Tax": { "percentage": 0.004, "notes": "Plus potential Mansion Tax" }
+        }
+     },
+     "MO": {
+         "fees": {
+            "Loan Origination Fee": { "maxPercentage": 0.008 },
+            "Application Fee": { "baseAmount": 300, "defaultAmount": 400 },
+            "Underwriting Fee": { "baseAmount": 325, "defaultAmount": 525 },
+            "Credit Report Fee": { "baseAmount": 40, "perCoBorrowerAmount": 25 },
+            "Appraisal Fee": { "tiers": [{ "upTo": 250000, "amount": 425 }], "defaultAmount": 1000 },
+            "Home Inspection Fee": { "baseAdjustment": -75 },
+            "Pest Inspection Fee": { "baseAdjustment": 0 },
+            "Attorney Fee": { "baseAdjustment": -150, "notes": "Rarely used" },
+            "Document Preparation Fee": { "baseAmount": 200, "complexAmount": 300 },
+            "Title Search/Examination": { "baseAmount": 300, "complexAmount": 400 },
+            "Lender's Title Insurance": { "premiumAdjustmentFactor": 0.80 },
+            "Owner's Title Insurance": { "premiumAdjustmentFactor": 0.75 },
+            "Settlement/Closing Fee": { "baseAdjustment": -100, "maxAmount": 800 },
+            "Recording Fees": { "baseAmount": 70 },
+            "Transfer Tax": { "percentage": 0 }
+         }
+     },
+    "TX": {
+       "fees": {
+        "Owner's Title Insurance": {
+          "paidBy": "Seller (Typically)",
+          "typicalAmount": "State Regulated Rate",
+          "calculationMethod": "stateRegulated",
+          "premiumAdjustmentFactor": 1.0
+        },
+         "Recording Fees": {
+            "baseAmount": 200
+         },
+         "Transfer Tax": { "percentage": 0 }
+       }
+    },
+    "FL": {
+        "fees": {
+            "Homeowners Insurance Premium": { "premiumAdjustmentFactor": 1.75 },
+            "Pest Inspection Fee": { "baseAdjustment": 50 },
+            "Transfer Tax": { "percentage": 0.007, "notes": "Documentary Stamp Tax" }
+        }
+    },
+     "IA": {
+         "fees": {
+            "Title Search/Examination": { "baseAmount": 200, "complexAmount": 300 },
+            "Lender's Title Insurance": { "premiumAdjustmentFactor": 0.60 },
+            "Owner's Title Insurance": { "premiumAdjustmentFactor": 0.50, "notes": "State Title Guaranty program" }
+         }
+     }
+  }
+}

@@ -147,8 +147,62 @@ class DataService {
     // Basic estimate - in a real app we'd use geocoding
     return {
       propertyTaxRate: await this.getPropertyTaxRate(state),
-      insuranceRate: 0.0035 // Default insurance rate
+      insuranceRate: 0.0035, // Default insurance rate
+      state: state,
+      taxCycle: await this._getPropertyTaxCycle(state)
     };
+  }
+  
+  /**
+   * Get closing costs data
+   * @returns {Promise<Object>} Closing costs data
+   */
+  async getClosingCostsData() {
+    try {
+      return this.loadData('closing_costs', 'base');
+    } catch (error) {
+      console.error('Error loading closing costs data:', error);
+      // Return a minimal default structure if data cannot be loaded
+      return {
+        fees: {},
+        prepaids: {
+          interest: { regZFinanceCharge: true },
+          homeownersInsurance: { 
+            regZFinanceCharge: false,
+            monthsPrepaid: 12,
+            escrowCushionMonths: 2,
+            typicalAnnualRate: 0.0035
+          },
+          propertyTaxes: {
+            regZFinanceCharge: false,
+            escrowCushionMonths: 2
+          }
+        },
+        stateVariations: {}
+      };
+    }
+  }
+  
+  /**
+   * Get property tax payment cycle for the state
+   * @param {string} state - State code
+   * @returns {Promise<Object>} Tax cycle information
+   * @private
+   */
+  async _getPropertyTaxCycle(state) {
+    try {
+      const taxCycleData = await this.loadData('location', 'tax_cycles');
+      return taxCycleData[state] || taxCycleData.default || {
+        frequency: 'annual',
+        dueDates: ['01-15'] // Default to January 15th
+      };
+    } catch (error) {
+      console.warn('Tax cycle data not available, using defaults');
+      return {
+        frequency: 'annual',
+        dueDates: ['01-15'] // Default to January 15th
+      };
+    }
   }
   
   // Private helper methods
